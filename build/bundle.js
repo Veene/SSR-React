@@ -7023,12 +7023,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // const Home = require('./client/components/Home').default; //NODE STYLE OF IMPORTING
 var app = (0, _express2.default)();
 
+//tells express to treat the public directory as the static directory to be viewed to the outside world
+app.use(_express2.default.static('public'));
 app.get('/', function (req, res) {
     //renderToString took the Home Component and renders it into one line Raw HTML to be able to send to client for fast load
     //Node env has no idea what JSX is
     var content = (0, _server.renderToString)(_react2.default.createElement(_Home2.default, null));
 
-    res.send(content);
+    var html = '\n        <html>\n            <head></head>\n            <body>\n                <div id="root">' + content + '</div>\n                <script src="bundle.js"></script>\n            </body>\n        </html>\n    ';
+
+    res.send(html);
 });
 
 app.listen(3000, function () {

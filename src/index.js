@@ -9,12 +9,24 @@ import Home from './client/components/Home'
 
 const app = express();
 
+//tells express to treat the public directory as the static directory to be viewed to the outside world
+app.use(express.static('public'))
 app.get('/', (req,res) => {
     //renderToString took the Home Component and renders it into one line Raw HTML to be able to send to client for fast load
     //Node env has no idea what JSX is
     const content = renderToString(<Home />)
 
-    res.send(content)
+    const html = `
+        <html>
+            <head></head>
+            <body>
+                <div id="root">${content}</div>
+                <script src="bundle.js"></script>
+            </body>
+        </html>
+    `;
+
+    res.send(html)
 })
 
 app.listen(3000, () => {
