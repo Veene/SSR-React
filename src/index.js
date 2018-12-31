@@ -3,30 +3,16 @@
 // const renderToString = require('react-dom/server').renderToString;
 // const Home = require('./client/components/Home').default; //NODE STYLE OF IMPORTING
 import express from 'express';
-import React from 'react';
-import {renderToString} from 'react-dom/server';
-import Home from './client/components/Home'
+import renderer from './helpers/renderer';
 
 const app = express();
 
 //tells express to treat the public directory as the static directory to be viewed to the outside world
 app.use(express.static('public'))
-app.get('/', (req,res) => {
-    //renderToString took the Home Component and renders it into one line Raw HTML to be able to send to client for fast load
-    //Node env has no idea what JSX is
-    const content = renderToString(<Home />)
-
-    const html = `
-        <html>
-            <head></head>
-            <body>
-                <div id="root">${content}</div>
-                <script src="bundle.js"></script>
-            </body>
-        </html>
-    `;
-
-    res.send(html)
+//this * allows us to use any route which will be given from the Routes file using StaticRouter for server. For Client it uses BrowserRouter.
+//Now we mainly only have to focus on The client side routing, because express will load the pages with the static RAW html (FASTER loading before hydrating)
+app.get('*', (req, res) => {
+    res.send(renderer(req))
 })
 
 app.listen(3000, () => {
