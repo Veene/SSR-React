@@ -23,6 +23,13 @@ class UsersList extends Component {
 function mapStateToProps(state) {
     return { users: state.users }
 }
+function loadData(store) {
+    //returns a promise because the action uses async await
+    return store.dispatch(fetchUsers())
+}
 
 
-export default connect(mapStateToProps, { fetchUsers })(UsersList)
+export default {
+    loadData,
+    component: connect(mapStateToProps, { fetchUsers })(UsersList)
+} 

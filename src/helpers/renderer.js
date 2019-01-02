@@ -2,6 +2,9 @@ import React from 'react';
 import {renderToString} from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
+import { renderRoutes } from 'react-router-config'
+//serialize replaced JSON.stringify basically to protect against XSS attacks which involve putting a script tag into a field like username to execute their malicious code, serialize library stringifys but also takes out all < > tags
+import serialize from 'serialize-javascript'
 import Routes from '../client/Routes'
 // import Home from '../client/components/Home';
 
@@ -11,7 +14,7 @@ export default (req, store) => {
     const content = renderToString(
         <Provider store={store}>
             <StaticRouter location={req.path} context={{}}>
-                <Routes />
+                <div>{renderRoutes(Routes)}</div>
             </StaticRouter>
         </Provider>
         
@@ -22,6 +25,9 @@ export default (req, store) => {
             <head></head>
             <body>
                 <div id="root">${content}</div>
+                <script>
+                    window.INITIAL_STATE = ${serialize(store.getState())}
+                </script>
                 <script src="bundle.js"></script>
             </body>
         </html>

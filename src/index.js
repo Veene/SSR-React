@@ -4,6 +4,8 @@
 // const Home = require('./client/components/Home').default; //NODE STYLE OF IMPORTING
 import 'babel-polyfill';
 import express from 'express';
+import { matchRoutes } from 'react-router-config'
+import Routes from './client/Routes'
 import renderer from './helpers/renderer';
 import createStore from './helpers/createStore';
 
@@ -18,8 +20,14 @@ app.get('*', (req, res) => {
 
     //some logic to initalize and load data into the store
     //because it is static Server side it requires the logic first to tell router when to update the server side html
-
-    res.send(renderer(req, store));
+    const promises = matchRoutes(Routes, req.path).map(({ route }) => {
+        return route.loadData ? route.loadData(store) : null;
+    })
+    Promise.all(promises).then(() => {
+        res.send(renderer(req, store));
+    })
+    //this is now only going to be called when all promises are completed (before it was used to render the raw HTML and then hydrate)
+    // res.send(renderer(req, store));
 })
 
 app.listen(3000, () => {
