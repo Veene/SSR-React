@@ -1,18 +1,25 @@
 import React from 'react'
 import { Route } from 'react-router-dom';
+import App from './App'
 import HomePage from './pages/HomePage'
 import UsersListPage, { loadData } from './pages/UsersListPage'
 
 //exporting an array of routes for react router config library
 export default [
     {
-        ...HomePage,
-        path: '/',
-        exact: true
-    },
-    {
-        ...UsersListPage,
-        path: '/users',
+        //because main object with ...App does not have a path: '/*' tied to it, it will always be rendered, like the background for the site, with searchbar, header etc
+        ...App,
+        routes: [
+            {
+                ...HomePage,
+                path: '/',
+                exact: true
+            },
+            {
+                ...UsersListPage,
+                path: '/users',
+            }
+        ]
     }
 ]
 
