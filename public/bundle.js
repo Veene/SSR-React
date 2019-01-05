@@ -39351,6 +39351,10 @@ var _UsersListPage = __webpack_require__(483);
 
 var _UsersListPage2 = _interopRequireDefault(_UsersListPage);
 
+var _NotFoundPage = __webpack_require__(487);
+
+var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //exporting an array of routes for react router config library
@@ -39360,7 +39364,7 @@ exports.default = [_extends({}, _App2.default, {
         exact: true
     }), _extends({}, _UsersListPage2.default, {
         path: '/users'
-    })]
+    }), _extends({}, _NotFoundPage2.default)]
 })];
 
 // () => {
@@ -39440,13 +39444,55 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Header = function Header(props) {
     console.log('my auth status is', props.auth);
+
+    var authButton = props.auth ? _react2.default.createElement(
+        'a',
+        { href: '/api/logout' },
+        'Logout'
+    ) : _react2.default.createElement(
+        'a',
+        { href: '/api/auth/google' },
+        'Login'
+    );
+
     return _react2.default.createElement(
-        'div',
+        'nav',
         null,
         _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/' },
-            'React SSR'
+            'div',
+            { className: 'nav-wrapper' },
+            _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/', className: 'brand-logo' },
+                'React SSR'
+            ),
+            _react2.default.createElement(
+                'ul',
+                { className: 'right' },
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: '/users' },
+                        'Users'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: '/admins' },
+                        'Admins'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    authButton
+                )
+            )
         )
     );
 };
@@ -39477,18 +39523,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Home = function Home() {
     return _react2.default.createElement(
         'div',
-        null,
+        { className: 'center-align', style: { marginTop: '200px' } },
         _react2.default.createElement(
-            'div',
+            'h3',
             null,
-            'I\'m the VERY VERY BEST home component'
+            'Welcome'
         ),
         _react2.default.createElement(
-            'button',
-            { onClick: function onClick() {
-                    return console.log('Hi There!');
-                } },
-            'Press me!'
+            'p',
+            null,
+            'Check out these awesome features'
         )
     );
 };
@@ -39662,6 +39706,34 @@ exports.default = function () {
 };
 
 var _index = __webpack_require__(80);
+
+/***/ }),
+/* 487 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NotFoundPage = function NotFoundPage() {
+    return _react2.default.createElement(
+        'h1',
+        null,
+        'Ooops, route not found'
+    );
+};
+exports.default = {
+    component: NotFoundPage
+};
 
 /***/ })
 /******/ ]);

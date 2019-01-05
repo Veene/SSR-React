@@ -15,7 +15,7 @@ const app = express();
 //first part is if the request url starts with /api send request to SECOND argument, third option inside proxy is special for this course becase of the way stephen set up his api
 app.use('/api', proxy('http://react-ssr-api.herokuapp.com', {
     proxyReqOptDecorator(opts) {
-        opts.headers['x-forwarded-host'] = 'localhost:300';
+        opts.headers['x-forwarded-host'] = 'localhost:3000';
         return opts
     }
 }))

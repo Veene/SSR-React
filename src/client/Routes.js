@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import App from './App'
 import HomePage from './pages/HomePage'
 import UsersListPage, { loadData } from './pages/UsersListPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 //exporting an array of routes for react router config library
 export default [
@@ -18,6 +19,9 @@ export default [
             {
                 ...UsersListPage,
                 path: '/users',
+            },
+            {
+                ...NotFoundPage,
             }
         ]
     }
