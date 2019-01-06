@@ -8,12 +8,12 @@ import serialize from 'serialize-javascript'
 import Routes from '../client/Routes'
 // import Home from '../client/components/Home';
 
-export default (req, store) => {
+export default (req, store, context) => {
     //renderToString took the Home Component and renders it into one line Raw HTML to be able to send to client for fast load
     //Node env has no idea what JSX is
     const content = renderToString(
         <Provider store={store}>
-            <StaticRouter location={req.path} context={{}}>
+            <StaticRouter location={req.path} context={context}>
                 <div>{renderRoutes(Routes)}</div>
             </StaticRouter>
         </Provider>

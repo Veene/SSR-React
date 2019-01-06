@@ -33,7 +33,14 @@ app.get('*', (req, res) => {
         return route.loadData ? route.loadData(store) : null;
     })
     Promise.all(promises).then(() => {
-        res.send(renderer(req, store));
+        const context = {}
+        const content = renderer(req, store, context)
+
+        if (context.notFound) {
+            res.status(404)
+        }
+
+        res.send(content);
     })
     //this is now only going to be called when all promises are completed (before it was used to render the raw HTML and then hydrate)
     // res.send(renderer(req, store));
