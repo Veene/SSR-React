@@ -4,6 +4,7 @@ import App from './App'
 import HomePage from './pages/HomePage'
 import UsersListPage, { loadData } from './pages/UsersListPage'
 import NotFoundPage from './pages/NotFoundPage'
+import AdminsListPage from './pages/AdminPage'
 
 //exporting an array of routes for react router config library
 export default [
@@ -15,6 +16,10 @@ export default [
                 ...HomePage,
                 path: '/',
                 exact: true
+            },
+            {
+                ...AdminsListPage,
+                path:'/admins'
             },
             {
                 ...UsersListPage,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { fetchUsers } from '../actions' //without specifiying the file it will take the index
+import { Helmet } from 'react-helmet'
 
 class UsersList extends Component {
     componentDidMount() {
@@ -11,9 +12,18 @@ class UsersList extends Component {
             return <li key={user.id}>{user.name}</li>
         })
     }
+    head() {
+        return (
+            <Helmet>
+                <title>Users App</title>
+                <meta property="og:title" content="Users App" />
+            </Helmet>
+        )
+    }
     render() {
         return (
             <div>
+                {this.head()}
                 Here's a big list of users:
                 <ul>{this.renderUsers()}</ul>
             </div>

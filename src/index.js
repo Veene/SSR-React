@@ -31,11 +31,20 @@ app.get('*', (req, res) => {
     //because it is static Server side it requires the logic first to tell router when to update the server side html
     const promises = matchRoutes(Routes, req.path).map(({ route }) => {
         return route.loadData ? route.loadData(store) : null;
+    }).map((promise) => {
+        if(promise) {
+            return new Promise((resolve, reject) => {
+                promise.then(resolve).catch(resolve)
+            })
+        }
     })
     Promise.all(promises).then(() => {
         const context = {}
         const content = renderer(req, store, context)
 
+        if(context.url) {
+            return res.redirect(302, context.url)
+        }
         if (context.notFound) {
             res.status(404)
         }

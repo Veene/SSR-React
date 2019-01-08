@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { renderRoutes } from 'react-router-config'
 //serialize replaced JSON.stringify basically to protect against XSS attacks which involve putting a script tag into a field like username to execute their malicious code, serialize library stringifys but also takes out all < > tags
 import serialize from 'serialize-javascript'
+import { Helmet } from 'react-helmet'
 import Routes from '../client/Routes'
 // import Home from '../client/components/Home';
 
@@ -17,12 +18,15 @@ export default (req, store, context) => {
                 <div>{renderRoutes(Routes)}</div>
             </StaticRouter>
         </Provider>
-        
         )
+        //loads objects from all the helmets you created on the specific pages
+        const helmet = Helmet.renderStatic()
 
     return `
         <html>
             <head>
+                ${helmet.title.toString()}
+                ${helmet.meta.toString()}
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
             </head>
             <body>
